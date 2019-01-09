@@ -24,6 +24,7 @@ find_package(Boost REQUIRED COMPONENTS
     system
     filesystem
 )
+
 find_package(PkgConfig)
 
 catkin_package()
