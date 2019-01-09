@@ -12,6 +12,8 @@
 
 #include "Thirdparty/DLib/FileFunctions.h"
 
+#include <fstream>
+
 
 using namespace std;
 
@@ -43,6 +45,8 @@ int main(int argc, char **argv)
 
     const float T=1.0f/freq;
     ros::Duration d(T);
+    string fname, tname, fold,line;
+    int slash;
 
     for(size_t i=0;i<filenames.size();i++)
     {
@@ -50,10 +54,20 @@ int main(int argc, char **argv)
             break;
 
         cv::Mat im = cv::imread(filenames[i],CV_LOAD_IMAGE_COLOR);
-        cv_bridge::CvImage cvImage;
+        slash = filenames[i].find_last_of("/\\");
+        fold = filenames[i].substr(0,slash)+"_masks_txt";
+        fname = filenames[i].substr(slash+1);
+        tname = fold+"/"+fname.substr(0, fname.size()-4)+".txt";
+        //cout << tname << endl;
+        ifstream corners_file (tname);
+        getline (corners_file,line);
+        cout << tname << ":" << line << endl;
+
+        cv_bridge::CvImage cvImage;     
         cvImage.image = im;
         cvImage.encoding = sensor_msgs::image_encodings::RGB8;
         cvImage.header.stamp = t;
+        cvImage.header.frame_id = line;
         bag_out.write("/camera/image_raw",ros::Time(t),cvImage.toImageMsg());
         t+=d;
         cout << i << " / " << filenames.size() << endl;
