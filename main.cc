@@ -52,7 +52,7 @@ int main(int argc, char **argv)
         cv::Mat im = cv::imread(filenames[i],CV_LOAD_IMAGE_COLOR);
         cv_bridge::CvImage cvImage;
         cvImage.image = im;
-        cvImage.encoding = sensor_msgs::image_encodings::RGB8;
+        cvImage.encoding = sensor_msgs::image_encodings::BGR8;
         cvImage.header.stamp = t;
         bag_out.write("/camera/image_raw",ros::Time(t),cvImage.toImageMsg());
         t+=d;
