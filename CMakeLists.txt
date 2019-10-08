@@ -41,8 +41,8 @@ target_link_libraries(FileFunctions
     ${OpenCV_LIBRARIES}
 )
 
-add_executable(main main.cc)
-target_link_libraries(main
+add_executable(BagFromImages BagFromImages.cc)
+target_link_libraries(BagFromImages
     FileFunctions
     ${catkin_LIBRARIES}
     ${OpenCV_LIBRARIES}
